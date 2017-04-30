@@ -4,10 +4,12 @@
  */
 package servidorpagamento;
 
+import db.ConexaoBD;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Connection;
 
 /**
  *
@@ -27,6 +29,9 @@ public class ServidorPagamento extends Thread{
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             String cartao = in.readUTF();
             float valor = in.readFloat();
+            
+            ConexaoBD conexao = new ConexaoBD();
+            Connection conn = conexao.getConexao(); //faz conexão com o banco de dados
             
             //Implementar
             //executar a busca no db pelos dados do cartão
