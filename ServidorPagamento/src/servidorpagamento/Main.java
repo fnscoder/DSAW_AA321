@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Classe principal do lado servidor. Cria um socket na porta 1234 e entra em
+ * um loop infinito aguardando por conexões. Após a conexão instancia a classe
+ * servidorPagamento e com o método .start() deixa a Thread pronta para ser 
+ * executada pelo SO
  */
 package servidorpagamento;
 
