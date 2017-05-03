@@ -1,0 +1,36 @@
+version: "3"
+
+volumes:
+  mysql-data:
+    driver: local
+  mvn-deps:
+    driver: local
+
+services:
+  tomcat:
+    image: tomcat:jre8-alpine
+    ports:
+      - "8080:8080"
+      - "9009:8009"
+    volumes:
+      - ./target/java-boilerplate-develop:/usr/local/tomcat/webapps/ROOT
+    depends_on:
+      - mvn
+      - mysql
+
+  mysql:
+    image: mysql
+    volumes:
+      - ./database/data:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb
+
+  mvn:
+    image: maven:alpine
+    entrypoint: mvn
+    command: install
+    volumes:
+      - .:/usr/src/app
+      - mvn-deps:/root/.m2
+    working_dir: /usr/src/app
