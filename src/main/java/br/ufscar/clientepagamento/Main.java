@@ -13,7 +13,7 @@ package br.ufscar.clientepagamento;
 public class Main {
     
     public static void main(String [] args) {
-        ClientePagamento cliente = new ClientePagamento("127.0.0.1", 1234);
+        ClientePagamento cliente = new ClientePagamento("server", 1234);
         cliente.start();
     }
 }

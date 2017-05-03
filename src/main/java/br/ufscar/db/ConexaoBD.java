@@ -17,12 +17,12 @@ public class ConexaoBD {
         conexao = null;
         try
         {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-	        conexao = DriverManager.getConnection("jdbc:mysql://mysql/dsaw_aa321","root","root");
+            Class.forName("com.mysql.jdbc.Driver");
+	        conexao = DriverManager.getConnection("jdbc:mysql://mysql:3306/mydb?autoReconnect=true","root","root");
         }
         catch (Exception excecao)
         {
-            System.err.println("Erro ao conectar com o banco: " + excecao.getMessage());
+            excecao.printStackTrace();
         }
     }
     
@@ -45,7 +45,7 @@ public class ConexaoBD {
             }
         }
         catch (Exception excecao) {
-            System.err.println("Erro ao fechar a conexao com o banco: " + excecao.getMessage());
+            excecao.printStackTrace();
         }
     } 
 }

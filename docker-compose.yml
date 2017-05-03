@@ -7,16 +7,24 @@ volumes:
     driver: local
 
 services:
-  tomcat:
-    image: tomcat:jre8-alpine
-    ports:
-      - "8080:8080"
-      - "9009:8009"
+  server:
+    image: openjdk:8-alpine
     volumes:
-      - ./target/java-boilerplate-develop:/usr/local/tomcat/webapps/ROOT
+      - ./target:/usr/src/app
+    working_dir: /usr/src/app
+    command: java -cp dependency/mysql-connector-java-5.1.6.jar:classes br.ufscar.servidorpagamento.Main
     depends_on:
       - mvn
       - mysql
+
+  client:
+    image: openjdk:8-alpine
+    volumes:
+      - ./target:/usr/src/app
+    working_dir: /usr/src/app
+    command: java -cp dependency/mysql-connector-java-5.1.6.jar:classes br.ufscar.clientepagamento.Main
+    depends_on:
+      - server
 
   mysql:
     image: mysql
