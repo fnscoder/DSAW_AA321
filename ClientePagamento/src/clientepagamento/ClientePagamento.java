@@ -28,12 +28,32 @@ public class ClientePagamento extends Thread{
     @Override
     public void run() {
         try {
-            System.out.print("Pagamento com Cartão de Crédito\n");
+            int cartao = -1;
+            float valor = -1;
+            int i = 0;
             Scanner input = new Scanner(System.in);
-            System.out.print("Informe o número do cartão: ");
-            int cartao = input.nextInt();
-            System.out.print("Informe o valor de pagamento: R$ ");
-            float valor = input.nextFloat();
+            while (i==0){
+                System.out.print("******Pagamento com Cartão de Crédito******\n");
+                
+                System.out.print("Informe o número do cartão: ");
+                String s_cartao = input.next();
+                System.out.print("Informe o valor de pagamento: R$ ");
+                String s_valor = input.next();
+
+                cartao = converteInt(s_cartao);
+                valor = converteFloat(s_valor);
+                
+                if (cartao == -1) 
+                    System.out.println("Erro. O cartão deve ser numérico. "
+                            + "Informe os dados novamente!");
+                else if  (valor == -1)
+                    System.out.println("Erro. O valor de pagamento deve ser "
+                            + "numérico com ponto flutuante. "
+                            + "Informe os dados novamente!");
+                else
+                    i = 1;
+            }
+            
             Socket socket = new Socket(ip, porta);
             
             DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -69,10 +89,6 @@ public class ClientePagamento extends Thread{
     /**
     * Esta função retorna um hash da senha fornecida pelo usuário
     * Este hash é produzido utilizando o algoritmo MD5
-    * @param senha A senha fornecida pelo usuário
-    * @return O hash da senha fornecida pelo usuário
-    * @throws java.security.NoSuchAlgorithmException Uma exceção
-    * causada caso o algoritmo escolhido não exista.
     */
     private String getHash(String senha) throws NoSuchAlgorithmException {
         MessageDigest algoritmo;
@@ -88,7 +104,27 @@ public class ClientePagamento extends Thread{
                 s.append('0');
             s.append(Integer.toHexString(parteAlta | parteBaixa));
         }
-        return s.toString(); //Retorna a string que representa o hash da senha
-   }
+        return s.toString();
+    }
+    
+    public int converteInt(String s) {
+        try {
+            int cartao = Integer.parseInt(s);
+            return cartao;
+        }
+        catch (Exception ex) {
+            return -1;
+        }
+    }
+    
+    public float converteFloat(String s) {
+        try {
+            float valor = Float.parseFloat(s);
+            return valor;
+        }
+        catch (Exception ex) {
+            return -1;
+        }
+    }
     
 }
